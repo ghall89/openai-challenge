@@ -60,10 +60,6 @@ const send = () => {
 			rspArr.push(msg);
 			saveLocalStorage();
 			displayChat();
-		})
-		.catch(error => {
-			throw error;
-			alert('There was a problem.');
 		});
 };
 
