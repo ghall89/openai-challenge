@@ -40,7 +40,7 @@ app.get('/callapi', function (req, res) {
 			res.send(data.choices[0].text);
 		})
 		.catch(error => {
-			alert(error);
+			throw error;
 		});
 });
 
