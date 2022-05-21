@@ -20,7 +20,7 @@ const displayChat = () => {
 	</li>
 	`;
 
-	chatArea.insertAdjacentHTML('beforeend', chatItem);
+	chatArea.insertAdjacentHTML('afterbegin', chatItem);
 };
 
 const send = () => {
@@ -30,37 +30,20 @@ const send = () => {
 	const queryValue = queryInput.value;
 	queryInput.value = '';
 
-	const data = {
-		prompt: queryValue,
-		temperature: 0.5,
-		max_tokens: 64,
-		top_p: 1.0,
-		frequency_penalty: 0.0,
-		presence_penalty: 0.0
-	};
-
-	fetch('https://api.openai.com/v1/engines/text-curie-001/completions', {
-		method: 'POST',
+	fetch('./callapi', {
+		method: 'GET',
 		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${process.env.MY_VAR}`
-		},
-		body: JSON.stringify(data)
+			query: queryValue
+		}
 	})
-		.then(rsp => {
-			rsp.json().then(data => {
-				console.log(data.choices[0].text);
-				const msg = {
-					query: queryValue,
-					response: data.choices[0].text
-				};
+		.then(rsp => rsp.text())
+		.then(data => {
+			const msg = {
+				query: queryValue,
+				response: data
+			};
 
-				rspArr.push(msg);
-				console.log(rspArr);
-				displayChat();
-			});
-		})
-		.catch(error => {
-			alert(error);
+			rspArr.push(msg);
+			displayChat();
 		});
 };
