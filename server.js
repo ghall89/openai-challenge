@@ -37,7 +37,6 @@ app.get('/callapi', function (req, res) {
 	})
 		.then(rsp => rsp.json())
 		.then(data => {
-			console.log(data);
 			const result = data.choices[0].text;
 			res.send(result);
 		})
