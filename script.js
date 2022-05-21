@@ -1,5 +1,19 @@
 const rspArr = [];
 
+const saveLocalStorage = () => {
+	localStorage.setItem('history', JSON.stringify(rspArr));
+};
+
+const readLocalStorage = () => {
+	const data = JSON.parse(localStorage.getItem('history'));
+	if (data) {
+		data.forEach(item => {
+			rspArr.push(item);
+			displayChat();
+		});
+	}
+};
+
 const displayChat = () => {
 	const chatArea = document.querySelector('#chat-area');
 	const item = rspArr[rspArr.length - 1];
@@ -44,6 +58,9 @@ const send = () => {
 			};
 
 			rspArr.push(msg);
+			saveLocalStorage();
 			displayChat();
 		});
 };
+
+readLocalStorage();
